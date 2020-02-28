@@ -1,0 +1,18 @@
+<div class="card_container">
+    <div class="card" *ngFor="let user of allUsers">
+        <img id="placeholder" src="assets/img/placeholder.jpg" alt="userPortrait">
+        <div class="container">
+            <div id="id">ID: {{user.id}}</div>
+            <div id="name">{{user.name}}</div>
+                    <div class="editContainer">
+                        <img id="delete" src="assets/img/delete-24px.svg" alt="delete">
+                        <img id="edit" src="assets/img/create-24px.svg" alt="edit">
+                    </div>
+            <div [ngClass] ="{
+                'positive' : user.balance > 0,
+                'negative': user.balance < 0,
+                'neutral' : user.balance == 0
+            }">{{user.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</div>
+        </div>
+    </div>
+</div>

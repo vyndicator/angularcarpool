@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "carpoolapp-d2f44": {
+      "hosting": {
+        "carpoolManager": [
+          "carpoolapp-d2f44"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.container {
+    width: 80%;
+    margin: auto;
+    margin-top: 7em;
+    margin-bottom: 1em;
+}
+
+.container h1 {
+    font-size: 34px;
+}
+
+.container p {
+    color: #555555;
+}
+
+@media (min-width: 700px) {
+    .container {
+        margin-top: 10em;
+        margin-bottom: 3em;
+    }
+
+    .container h1 {
+        font-size: 48px;
+    }
+}
