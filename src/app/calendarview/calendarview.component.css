@@ -1,6 +1,6 @@
 .header {
     text-align: center;
-    margin-bottom: 5em;
+    margin-bottom: 2em;
 }
 
 .calendar_container {
@@ -16,9 +16,8 @@
 .calendar_header {
     background-color: #362594;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.438);
-    border-radius: 3px;
-    width: 102%;
-    margin-left: -6px;
+    border-radius: 3px 3px 0 0 ;
+    width: 100%;
     height: 5em;
     display: table;
 }
@@ -32,8 +31,11 @@
     vertical-align: middle;
 }
 
+
 #monthButton {
-    font-size: 36px;
+    font-size: 26px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #monthButton:hover {
@@ -41,48 +43,45 @@
     border-radius: 3px 3px 0 0;
 }
 
-.weekdays {
-    width: 100%;
+.table_content {
+    border-collapse: collapse;
+    width: 80%;
+    height: 20em;
     margin: auto;
 }
 
-.weekdays li {
-    border-bottom: 1px solid black;
-    margin-bottom: 1em;
-    margin-top: 2em;
-    display: inline-block;
-    width: 12%;
-    color: #666;
-    font-size: 20px;
+.table_content th {
+    width: 50px;
+    height: 50px;
     text-align: center;
+    padding-top: 2em;
+    font-size: 20px;
 }
 
 .days {
-    width: 100%;
-    margin: auto;
-    padding-bottom: 1em;
-}
-
-.days li {
-    list-style-type: none;
-    display: inline-block;
-    width: 12%;
     text-align: center;
-    padding-top: 1.1em;
-    padding-bottom: 1.1em;
-    font-size:20px;
-    color: #777;
-    border-radius: 2em;
-
+    font-size: 18px;
 }
 
-.days li:hover {
-    background-color: #5a2da4;
+.days td:hover {
+    background-color: red;
     color: white;
+    border-radius: 1em;
 }
+
 
 @media (min-width: 800px) {
     .calendar_container {
         width: 70%;
+        margin-bottom: 2em;
     }
+
+    .table_content {
+        height: 40em;
+    }
+
+    .header {
+        margin-bottom: 5em;
+    }
+
 }
