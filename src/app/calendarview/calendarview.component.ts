@@ -8,21 +8,24 @@ import { Component, OnInit } from '@angular/core';
 export class CalendarviewComponent implements OnInit {
 
   days: string[] = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-
   weeks: any[] = [[]];
+  nameOfMonth: string;
+
+  date: Date;
+  currentYear: number = 0;
+  currentMonth: number = 0;
 
   calculateDates(): void {
-
-    let date = new Date(); 
-    let currentYear = date.getFullYear();
-    let currentMonth = date.getMonth();
-    
-    let firstDay = new Date(currentYear, currentMonth, 1);
-    let lastDay = new Date(currentYear, currentMonth + 1, 0);
+   
+    let firstDay = new Date(this.currentYear, this.currentMonth, 1);
+    let lastDay = new Date(this.currentYear, this.currentMonth + 1, 0);
 
     let allDays: any[] = [];
     let indexOfStartDay;
     let numberOfWeeks = 1;
+
+    this.weeks = [[]];
+    this.getMonthName();
 
     indexOfStartDay = firstDay.getDay();
     if(indexOfStartDay == 0) {
@@ -35,7 +38,7 @@ export class CalendarviewComponent implements OnInit {
     }
 
     for(let i = 1; i <= lastDay.getDate(); i++){
-      allDays.push(new Date(currentYear, currentMonth, i));
+      allDays.push(new Date(this.currentYear, this.currentMonth, i));
     }
 
     let indexOfLastDay = lastDay.getDay();
@@ -50,7 +53,7 @@ export class CalendarviewComponent implements OnInit {
       allDays.push(null);
     }
     
-    let day_old = new Date(currentYear, currentMonth, 1);
+    let day_old = new Date(this.currentYear, this.currentMonth, 1);
 
     allDays.forEach(day => {
       if(day != null){
@@ -80,14 +83,65 @@ export class CalendarviewComponent implements OnInit {
       }
     }
 
-    console.log(this.weeks);
+  }
+
+  getMonthName(): void {
+    console.log(this.currentMonth);
+    switch(this.currentMonth){
+      case 0: 
+        this.nameOfMonth = "January";
+        break;
+      case 1: 
+        this.nameOfMonth = "February";
+        break;
+      case 2: 
+        this.nameOfMonth = "March";
+        break;
+      case 3: 
+        this.nameOfMonth = "April";
+        break;
+      case 4: 
+        this.nameOfMonth = "May";
+        break;
+      case 5: 
+        this.nameOfMonth = "June";
+        break;
+      case 6: 
+        this.nameOfMonth = "July";
+        break;
+      case 7: 
+        this.nameOfMonth = "August";
+        break;
+      case 8: 
+        this.nameOfMonth = "September";
+        break;
+      case 9: 
+        this.nameOfMonth = "October";
+        break;
+      case 10: 
+        this.nameOfMonth = "November";
+        break;
+      case 11: 
+        this.nameOfMonth = "December";
+        break;
+    }
+  }
+
+  changeMonth(direction: number): void {
+    if(direction == 2){
+      this.currentMonth++;
+    } else if(direction == 1){
+      this.currentMonth--;
+    }
+
+    this.calculateDates();
   }
 
 
-
-
   constructor() {
-      
+    this.date = new Date(); 
+    this.currentYear = this.date.getFullYear();
+    this.currentMonth = this.date.getMonth();
    }
 
   ngOnInit(): void {

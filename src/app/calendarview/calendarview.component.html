@@ -1,8 +1,8 @@
 <div class="calendar_container">
     <div class="calendar_header">
-        <span id="monthButton">&#10094;</span>
-        <span>March 2020</span>
-        <span id="monthButton">&#10095;</span>
+        <span (click)="changeMonth(1)" id="monthButton">&#10094;</span>
+        <span>{{nameOfMonth}} 2020</span>
+        <span (click)="changeMonth(2)" id="monthButton">&#10095;</span>
     </div>
     <table class="table_content">
         <th class="weekdays" *ngFor="let day of days">
