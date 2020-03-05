@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { UserviewComponent } from './userview/userview.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarviewComponent } from './calendarview/calendarview.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     UserviewComponent,
     TopbarComponent,
+    CalendarviewComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,16 @@
     float:left;
     color: white;
     font-size: 14px;
+    touch-action: unset;
+}
+
+#leftSpan:hover {
+    color: white;
+}
+
+#leftSpan:active {
+    color: white;
+    background-color: #362594;
 }
 
 .topnav span {
@@ -31,10 +41,19 @@
     color: #FFFFFF;
 }
 
+.top_padding {
+    height: 7em;
+}
+
 @media (min-width: 700px) {
+
+    .topnav {
+        margin-right: 2em;
+    }
 
     #leftSpan {
         font-size: 24px;
+        margin-left: 2em;
     }
 }
 

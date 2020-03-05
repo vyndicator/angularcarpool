@@ -1,0 +1,28 @@
+<div class="header" >
+    <h1>The calendar view</h1>
+        <p>This view is used to show all the registrated drives in a calendar.</p>     
+</div>
+<div class="calendar_container">
+    <div class="calendar_header">
+        <span id="monthButton">&#10094;</span>
+        <span>March</span>
+        <span id="monthButton">&#10095;</span>
+    </div>
+    <div class="content">
+        <ul class="weekdays">
+            <li>Mo</li>
+            <li>Tu</li>
+            <li>We</li>
+            <li>Th</li>
+            <li>Fr</li>
+            <li>Sa</li>
+            <li>Su</li>
+        </ul>
+
+        <ul class="days" *ngFor="let week of weeks">
+            <li *ngFor="let day of week">{{day}}</li>
+        </ul>
+    </div>
+    
+ 
+</div>

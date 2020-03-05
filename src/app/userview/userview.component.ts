@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireList} from '@angular/fire/database';
 import 'firebase/database';
 import { Observable } from 'rxjs';
 import { User } from '../user.model';
@@ -27,6 +25,14 @@ export class UserviewComponent implements OnInit {
       this.allUsers = users as User[];
     })
 
+  }
+
+  deleteUser(): void {
+    alert("Delete User!");
+  }
+
+  editUser(): void {
+    alert('Edit User!')
   }
 
   ngOnInit(): void {

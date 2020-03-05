@@ -1,4 +1,10 @@
 
+.header {
+    text-align: center;
+    margin-bottom: 5em;
+}
+
+
 .card {
     color: #555555;
     width: 80%;
@@ -9,7 +15,6 @@
     margin-bottom: 2em;
     background-color: white;
 }
-
 
 #placeholder {
     display: none;
@@ -37,19 +42,18 @@
     width: 8em;
     position: absolute;
     top: 2em;
-    right: 0;
+    right: 1.5em;
 }
 
 #edit {
-    padding: 3px;
-    margin: auto;
+    padding: 5px;
+    float: right;
     width: 30px;
 }
 
 #delete {
-    padding: 3px;
-    padding-right: 20px;
-    margin: auto;
+    padding: 5px;
+    float: right;
     width: 30px;
 }
 
@@ -106,7 +110,4 @@
         width: 20em;
     }
 
-    .card:hover {
-        width: 35%;
-    }
 }
