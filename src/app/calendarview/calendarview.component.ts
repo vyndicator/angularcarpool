@@ -9,16 +9,89 @@ export class CalendarviewComponent implements OnInit {
 
   days: string[] = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
-  weeks: number[][] = [[24,25,26,27,28,29,1],
-                       [2,3,4,5,6,7,8],
-                       [9,10,11,12,13,14,15],
-                       [16,17,18,19,20,21,22],
-                       [23,24,25,26,27,28,29],
-                       [30,31,1,2,3,4,5]];
+  weeks: any[] = [[]];
 
-  constructor() { }
+  calculateDates(): void {
+
+    let date = new Date(); 
+    let currentYear = date.getFullYear();
+    let currentMonth = date.getMonth();
+    
+    let firstDay = new Date(currentYear, currentMonth, 1);
+    let lastDay = new Date(currentYear, currentMonth + 1, 0);
+
+    let allDays: any[] = [];
+    let indexOfStartDay;
+    let numberOfWeeks = 1;
+
+    indexOfStartDay = firstDay.getDay();
+    if(indexOfStartDay == 0) {
+      indexOfStartDay = 7;
+    }
+    indexOfStartDay--;
+
+    for(let i = 0; i < indexOfStartDay; i++){
+      allDays.push(null);
+    }
+
+    for(let i = 1; i <= lastDay.getDate(); i++){
+      allDays.push(new Date(currentYear, currentMonth, i));
+    }
+
+    let indexOfLastDay = lastDay.getDay();
+    if(indexOfLastDay == 0){
+      indexOfLastDay = 7;
+    }
+    indexOfLastDay--;
+
+    let daysOfLastWeekLeft = 6 - indexOfLastDay;
+
+    for(let i = 0; i < daysOfLastWeekLeft; i++){
+      allDays.push(null);
+    }
+    
+    let day_old = new Date(currentYear, currentMonth, 1);
+
+    allDays.forEach(day => {
+      if(day != null){
+        if(day.getDay() < day_old.getDay()){
+          numberOfWeeks++;
+        }
+
+        day_old = day;
+      }
+    })
+  
+    
+    for(let i = 0; i < numberOfWeeks; i++){
+      this.weeks.push( [] );
+    }
+    
+    let temp = 0;
+
+    for(let i = 0; i <= numberOfWeeks; i++){
+      for(let j = 0; j < 7; j++){
+        if(allDays[temp] == null){
+          this.weeks[i].push("");
+        } else {
+          this.weeks[i].push(allDays[temp].getDate().toString());
+        }
+        temp++;
+      }
+    }
+
+    console.log(this.weeks);
+  }
+
+
+
+
+  constructor() {
+      
+   }
 
   ngOnInit(): void {
+    this.calculateDates();
   }
 
 }

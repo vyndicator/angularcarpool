@@ -1,0 +1,32 @@
+[debug] [2020-03-05T14:46:29.979Z] ----------------------------------------------------------------------
+[debug] [2020-03-05T14:46:29.980Z] Command:       C:\Programme\nodejs\node.exe C:\Programme\nodejs\node_modules\firebase-tools\lib\bin\firebase.js deploy --interactive --project carpoolapp-d2f44
+[debug] [2020-03-05T14:46:29.981Z] CLI Version:   7.14.0
+[debug] [2020-03-05T14:46:29.981Z] Platform:      win32
+[debug] [2020-03-05T14:46:29.981Z] Node Version:  v13.9.0
+[debug] [2020-03-05T14:46:29.988Z] Time:          Thu Mar 05 2020 15:46:29 GMT+0100 (Mitteleuropäische Normalzeit)
+[debug] [2020-03-05T14:46:29.988Z] ----------------------------------------------------------------------
+[debug] [2020-03-05T14:46:29.988Z] 
+[debug] [2020-03-05T14:46:29.996Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-05T14:46:29.997Z] > authorizing via signed-in user
+[debug] [2020-03-05T14:46:29.997Z] [iam] checking project carpoolapp-d2f44 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-03-05T14:46:29.999Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/carpoolapp-d2f44:testIamPermissions  
+
+[debug] [2020-03-05T14:46:30.138Z] [iam] error while checking permissions, command may fail: FirebaseError: Server Error. getaddrinfo ENOTFOUND cloudresourcemanager.googleapis.com
+[debug] [2020-03-05T14:46:30.141Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/carpoolapp-d2f44  
+ 
+[debug] [2020-03-05T14:46:30.152Z] Server Error. getaddrinfo ENOTFOUND firebase.googleapis.com
+[debug] [2020-03-05T14:46:30.155Z] FirebaseError: Server Error. getaddrinfo ENOTFOUND firebase.googleapis.com
+    at Request._callback (C:\Programme\nodejs\node_modules\firebase-tools\lib\api.js:30:31)
+    at self.callback (C:\Programme\nodejs\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:321:20)
+    at Request.EventEmitter.emit (domain.js:485:12)
+    at Request.onRequestError (C:\Programme\nodejs\node_modules\firebase-tools\node_modules\request\request.js:877:8)
+    at ClientRequest.emit (events.js:333:22)
+    at ClientRequest.EventEmitter.emit (domain.js:485:12)
+    at TLSSocket.socketErrorListener (_http_client.js:432:9)
+    at TLSSocket.emit (events.js:321:20)
+    at TLSSocket.EventEmitter.emit (domain.js:485:12)
+    at emitErrorNT (internal/streams/destroy.js:84:8)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21)
+[error] 
+[error] Error: Failed to get Firebase project carpoolapp-d2f44. Please make sure the project exists and your account has permission to access it.
