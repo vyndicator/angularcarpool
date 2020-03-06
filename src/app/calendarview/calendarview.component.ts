@@ -130,8 +130,16 @@ export class CalendarviewComponent implements OnInit {
   changeMonth(direction: number): void {
     if(direction == 2){
       this.currentMonth++;
+      if(this.currentMonth > 11){
+        this.currentMonth = 0;
+        this.currentYear++;
+      }
     } else if(direction == 1){
       this.currentMonth--;
+      if(this.currentMonth < 0){
+        this.currentMonth = 11;
+        this.currentYear--;
+      }
     }
 
     this.calculateDates();

@@ -1,7 +1,7 @@
 <div class="calendar_container">
     <div class="calendar_header">
         <span (click)="changeMonth(1)" id="monthButton">&#10094;</span>
-        <span>{{nameOfMonth}} 2020</span>
+        <span>{{nameOfMonth}} {{currentYear}}</span>
         <span (click)="changeMonth(2)" id="monthButton">&#10095;</span>
     </div>
     <table class="table_content">
@@ -9,7 +9,10 @@
             <span>{{day}}</span>
         </th>
         <tr class="days" *ngFor="let week of weeks">
-            <td *ngFor="let day of week">{{day}}</td>
+            <td *ngFor="let day of week" [ngClass] ="{
+                'day_cell_empty' : day == '',
+                'day_cell' : day != ''
+            }">{{day}}</td>
         </tr>
         <br>
     </table>

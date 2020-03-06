@@ -67,7 +67,12 @@
 
 }
 
-.days td:hover {
+.day_cell_empty:hover {
+    background-color: white;
+    color: white;
+}
+
+.day_cell:hover {
     background-color: red;
     color: white;
     border-radius: 1em;
