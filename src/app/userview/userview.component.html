@@ -1,18 +1,42 @@
 <div class="card_container">
-    <div class="card" *ngFor="let user of allUsers">
-        <img id="placeholder" src="assets/img/placeholder.jpg" alt="userPortrait">
-        <div class="container">
-            <div id="id">ID: {{user.id}}</div>
-            <div id="name">{{user.name}}</div>
-                    <div class="editContainer">
-                        <img (click)="deleteUser()" id="delete" src="assets/img/delete-24px.svg" alt="delete">
-                        <img (click)="editUser()" id="edit" src="assets/img/create-24px.svg" alt="edit">
-                    </div>
-            <div [ngClass] ="{
-                'positive' : user.balance > 0,
-                'negative': user.balance < 0,
-                'neutral' : user.balance == 0
-            }">{{user.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</div>
-        </div>
+    <div class="card" *ngFor="let user of allUsers; let i = index" [ngClass] = "{
+        'card' : cardState[i] == false,
+        'card_open' : cardState[i] == true
+    }"> 
+    <div class="container">
+            <img id="placeholder" src="assets/img/placeholder.jpg" alt="userPortrait">
+            <div class="property_container">
+                <div id="id">ID: {{user.id}}</div>
+                <div id="name">{{user.name}}</div>    
+                <div [ngClass] ="{
+                    'positive' : user.balance > 0,
+                    'negative': user.balance < 0,
+                    'neutral' : user.balance == 0
+                }">{{user.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</div>
+            </div>
+            <div class="icon_Container">
+                    <img (click)="deleteUser()" id="delete" src="assets/img/delete-24px.svg" alt="delete">
+                    <img (click)="editUser(i)" id="edit" src="assets/img/create-24px.svg" alt="edit">
+            </div>  
     </div>
+      
+    <div class="edit_container" [ngClass]="{
+        'edit_container_open' : cardState[i] == true,
+        'edit_container_closed' : cardState[i] == false
+    }">     
+        <div class="group">      
+                <input type="text" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Name</label>
+            </div>
+            <div class="group">      
+                <input type="text" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Balance</label>
+            </div>
+            <button class="form_button">CHANGE</button> 
+    </div>
+  
 </div>

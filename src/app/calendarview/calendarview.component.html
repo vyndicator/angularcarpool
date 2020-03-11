@@ -9,12 +9,26 @@
             <span>{{day}}</span>
         </th>
         <tr class="days" *ngFor="let week of weeks">
-            <td *ngFor="let day of week" [ngClass] ="{
+            <td (click)="showDrive(day)" *ngFor="let day of week" [ngClass] ="{
                 'day_cell_empty' : day == '',
-                'day_cell' : day != ''
+                'day_cell' : (day != '' && markDriveDates(day) === false),
+                'day_cell_with_date' : (day != '' && markDriveDates(day) === true)
             }">{{day}}</td>
         </tr>
         <br>
     </table>
+</div>
+<div class="drive_container">
+    <h2 *ngIf="driver == null">There have been no drives for the selected date.</h2>
+    <div class="driverInfo" *ngIf="driver != null;">
+        <span >Driver:</span>
+        <span class="nameDriver">{{driver.name}}</span>
+        <span class="balance">{{driver.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</span>
+    </div>
+    <div class="passengerInfo" *ngFor="let passenger of passengers; let i = index">
+        <span>Passenger {{i+1}}:</span>
+        <span class="namePassenger">{{passenger.name}}</span>
+        <span class="balance">{{passenger.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</span>
+    </div>
 </div>
 <br>

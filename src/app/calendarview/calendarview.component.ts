@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import 'firebase/database';
+import { Observable, of } from 'rxjs';
+import { Drive } from '../drive.model';
+import { User } from '../user.model';
+import { registerLocaleData } from '@angular/common';
+import localeDE from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
 
 @Component({
   selector: 'app-calendarview',
@@ -7,6 +15,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalendarviewComponent implements OnInit {
 
+  drives: Observable<Drive[]>;
+  allDrives = [];
+  driver: User;
+  passengers = [];
+
   days: string[] = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
   weeks: any[] = [[]];
   nameOfMonth: string;
@@ -14,6 +27,76 @@ export class CalendarviewComponent implements OnInit {
   date: Date;
   currentYear: number = 0;
   currentMonth: number = 0;
+  
+  selectedDate: String;
+
+  constructor(database: AngularFireDatabase) {
+    registerLocaleData(localeDE, 'de-DE', localeDeExtra);
+    this.date = new Date(); 
+    this.currentYear = this.date.getFullYear();
+    this.currentMonth = this.date.getMonth();
+
+    this.drives = database.list<Drive>('drives').valueChanges();
+    this.drives.subscribe(drives => {
+      this.allDrives = drives as Drive[];
+    })
+
+   }
+
+  ngOnInit(): void {
+    this.calculateDates();
+  }
+
+  showDrive(clickedDate: string): void {
+
+    this.driver = null;
+    this.passengers = [];
+    this.selectedDate = this.createDateString(clickedDate);
+    this.allDrives.forEach( drive => {
+      if(drive.date == this.selectedDate) {
+        this.driver = drive.driver;
+        drive.passengers.forEach(passenger => {
+          this.passengers.push(passenger as User);
+        })
+      }
+    })
+
+
+  }
+
+  markDriveDates(currentDay: string): boolean {
+
+    let date = this.createDateString(currentDay);
+    let isFound = false;
+
+    this.allDrives.forEach( drive => {
+      if(drive.date === date){
+        isFound = true;
+      }
+    })
+    return isFound;
+  }
+
+  createDateString(clickedDate: string): string {
+    
+    let month;
+    let day;
+    let selectedDay = parseInt(clickedDate);
+
+    if(this.currentMonth < 10) {
+      month = "0" + (this.currentMonth + 1);
+    } else {
+      month = "" + (this.currentMonth + 1);
+    }
+
+    if(selectedDay < 10) {
+      day = "0" + clickedDate;
+    } else {
+      day = "" + clickedDate;
+    }
+
+    return day + "/" + month + "/" + this.currentYear;
+  }
 
   calculateDates(): void {
    
@@ -57,16 +140,16 @@ export class CalendarviewComponent implements OnInit {
 
     allDays.forEach(day => {
       if(day != null){
-        if(day.getDay() < day_old.getDay()){
+        if(day.getDay() == 1 && day_old.getDay() == 0){
           numberOfWeeks++;
         }
 
         day_old = day;
       }
     })
-  
+    console.log(numberOfWeeks);
     
-    for(let i = 0; i < numberOfWeeks; i++){
+    for(let i = 0; i < 5; i++){
       this.weeks.push( [] );
     }
     
@@ -86,7 +169,6 @@ export class CalendarviewComponent implements OnInit {
   }
 
   getMonthName(): void {
-    console.log(this.currentMonth);
     switch(this.currentMonth){
       case 0: 
         this.nameOfMonth = "January";
@@ -141,18 +223,6 @@ export class CalendarviewComponent implements OnInit {
         this.currentYear--;
       }
     }
-
-    this.calculateDates();
-  }
-
-
-  constructor() {
-    this.date = new Date(); 
-    this.currentYear = this.date.getFullYear();
-    this.currentMonth = this.date.getMonth();
-   }
-
-  ngOnInit(): void {
     this.calculateDates();
   }
 

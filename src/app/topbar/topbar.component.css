@@ -2,18 +2,19 @@
     z-index: 2;
     position: fixed;
     overflow: hidden;
-    background-color:#362594;
+    background-color:#2239b8;
     color: white;
     top: 0;
     width: 100%;
     box-shadow: 0px 0px 10px 0px #444444;
+    
 }
 
 #leftSpan {
-    float:left;
     color: white;
-    font-size: 14px;
-    touch-action: unset;
+    font-size: 24px;
+    padding: 18px 0px 15px 20px;
+    float: left;
 }
 
 #leftSpan:hover {
@@ -22,28 +23,28 @@
 
 #leftSpan:active {
     color: white;
-    background-color: #362594;
+    background-color: #2239b8;
 }
 
-.topnav span {
-    padding: 20px 10px 20px 10px; 
+.topnav {
+    height: 60px;
+    padding-right: 0px;
+}
+
+.iconButton {
     float: right;
-    background-color: #362594;
-    color:#CCCCCC;
-    display: block;
+    width: 15%;
+    text-align: center;
+    padding: 18px 0 16px 0;
+    transition: all 0.3s ease;
 }
 
-.topnav span:hover{
-    color: #FFFFFF;
-}
-
-.topnav span:active{
-    background-color: #5a2da4;
-    color: #FFFFFF;
+.iconButton:hover {
+    background-color: #56b0ff;
 }
 
 .top_padding {
-    height: 7em;
+    height: 65px;
 }
 
 @media (min-width: 700px) {

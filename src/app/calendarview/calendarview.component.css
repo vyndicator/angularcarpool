@@ -5,65 +5,64 @@
 
 .calendar_container {
     color: #555555;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.438);
     transition:  0.3s;
-    border-radius: 3px;
+    border-radius: 3px 3px 0 0;
     background-color: white;
     margin: auto;
-    width: 90%;
-    max-width: 500px;
+    max-width: 360px;
 }
 
 .calendar_header {
-    background-color: #362594;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.438);
+    background-color: white;
     border-radius: 3px 3px 0 0 ;
     width: 100%;
-    height: 5em;
+    height: 3em;
     display: table;
+    border-bottom: 1px solid #EFEFEF;
+    
 }
 
 .calendar_header span{
-    color: white;
+    color: #555555;
     text-align: center;
     vertical-align: middle;
-    font-size: 24px;
+    font-size: 16px;
     display: table-cell;
     vertical-align: middle;
 }
 
 
 #monthButton {
-    font-size: 26px;
+    font-size: 18px;
     padding-left: 5px;
     padding-right: 5px;
+    width: 50px;
 }
 
 #monthButton:hover {
-    background-color: #5a2da4;
+    background-color: #EFEFEF;
     border-radius: 3px 3px 0 0;
+    
 }
 
 .table_content {
     border-collapse: collapse;
-    width: 100%;
-    height: 20em;
+    width: 90%;
     margin: auto;
 }
 
 .table_content th {
-    width: 25px;
-    height: 15px;
     text-align: center;
     padding-top: 1em;
-    padding-bottom: 20px;
+    padding-bottom: 0.5em;
     font-size: 14px;
+    width: 30px;
 }
 
 .days {
     text-align: center;
-    font-size: 18px;
-    height: 30px;
+    font-size: 12px;
+    height: 45px;
 
 }
 
@@ -73,13 +72,73 @@
 }
 
 .day_cell:hover {
-    background-color: red;
+    background-color: #41c300;
     color: white;
-    border-radius: 1em;
+    border-radius: 5em;
+}
+
+.day_cell_with_date {
+    color: #41c300;
+    font-size: 18px; 
+    font-weight: bold;
+}
+
+.day_cell_with_date:hover {
+    background-color: #41c300;
+    color: white;
+    border-radius: 5em;
 }
 
 
-@media (min-width: 800px) {
+.drive_container{
+    width: 90%;
+    margin: auto;
+    max-width: 500px;
+    padding-top: 10px;
+    font-size: 16px;
+    color: #555555;
+}
 
+.drive_container h2 {
+    color: #555555;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 2em;
+}
+
+.balance {
+    float: right;
+}
+
+.nameDriver {
+    margin-left: 97px;
+}
+
+.namePassenger {
+    margin-left: 50px;
+}
+
+.driverInfo {
+    background-color: #41c300;
+    color: white;
+    border-radius: 3px;
+    padding: 3px;
+    margin-bottom: 5px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.438);
+}
+
+.passengerInfo {
+    border-radius: 3px;
+    padding: 3px;
+    margin-bottom: 5px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.438);
+}
+
+
+
+@media (max-height: 640px) {
+    .days {
+        height: 7vh;
+    }
 
 }
