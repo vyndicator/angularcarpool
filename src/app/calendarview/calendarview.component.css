@@ -134,11 +134,29 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.438);
 }
 
+.floatingButton{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:20px;
+	right:20px;
+	background-color:#41c300;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.138);
+    z-index: 1;
+}
 
+.floatingButton img {
+    margin-top: 15px;
+    margin-left: -1px;
+    height: 30px;
+    
+}
 
-@media (max-height: 640px) {
-    .days {
-        height: 7vh;
-    }
-
+.floatingButton:hover {
+    background-color: #61d800;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.238);
+    transition: 0.3s;
 }

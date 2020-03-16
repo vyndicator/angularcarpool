@@ -15,7 +15,7 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 })
 export class CalendarviewComponent implements OnInit {
 
-  drives: Observable<Drive[]>;
+  drives: any;
   allDrives = [];
   driver: User;
   passengers = [];
@@ -29,6 +29,7 @@ export class CalendarviewComponent implements OnInit {
   currentMonth: number = 0;
   
   selectedDate: String;
+  isAddButtonActive: boolean;
 
   constructor(database: AngularFireDatabase) {
     registerLocaleData(localeDE, 'de-DE', localeDeExtra);
@@ -41,10 +42,22 @@ export class CalendarviewComponent implements OnInit {
       this.allDrives = drives as Drive[];
     })
 
+    this.isAddButtonActive = true;
+
    }
 
   ngOnInit(): void {
     this.calculateDates();
+  }
+
+  addDrive(): void {
+      console.log("Selected Date: " + this.selectedDate);
+      let passengers = [new User(1, "Michael", 0)];
+
+      if(this.selectedDate != ""){
+        this.drives.push(new Drive(1, this.selectedDate, 1.50,new User(1, "Michael", 0), passengers, ));
+      } 
+
   }
 
   showDrive(clickedDate: string): void {
@@ -55,9 +68,12 @@ export class CalendarviewComponent implements OnInit {
     this.allDrives.forEach( drive => {
       if(drive.date == this.selectedDate) {
         this.driver = drive.driver;
+        this.isAddButtonActive = false;
         drive.passengers.forEach(passenger => {
           this.passengers.push(passenger as User);
         })
+      } else {
+        this.isAddButtonActive = true;
       }
     })
 
@@ -147,7 +163,6 @@ export class CalendarviewComponent implements OnInit {
         day_old = day;
       }
     })
-    console.log(numberOfWeeks);
     
     for(let i = 0; i < 5; i++){
       this.weeks.push( [] );
