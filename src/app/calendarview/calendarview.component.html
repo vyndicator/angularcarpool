@@ -9,7 +9,7 @@
             <span>{{day}}</span>
         </th>
         <tr class="days" *ngFor="let week of weeks">
-            <td (click)="showDrive(day)" *ngFor="let day of week" [ngClass] ="{
+            <td (click)="showDriveOnClick(day)" *ngFor="let day of week" [ngClass] ="{
                 'day_cell_empty' : day == '',
                 'day_cell' : (day != '' && markDriveDates(day) === false),
                 'day_cell_with_date' : (day != '' && markDriveDates(day) === true)

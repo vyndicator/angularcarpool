@@ -37,8 +37,8 @@ export class CalendarviewComponent implements OnInit {
     this.currentYear = this.date.getFullYear();
     this.currentMonth = this.date.getMonth();
 
-    this.drives = database.list<Drive>('drives').valueChanges();
-    this.drives.subscribe(drives => {
+    this.drives = database.list<Drive>('drives');
+    this.drives.valueChanges().subscribe(drives => {
       this.allDrives = drives as Drive[];
     })
 
@@ -60,24 +60,28 @@ export class CalendarviewComponent implements OnInit {
 
   }
 
-  showDrive(clickedDate: string): void {
-
+  showDriveOnClick(clickedDate: string): void {
+    let dateFound;
+    dateFound = false;
     this.driver = null;
     this.passengers = [];
     this.selectedDate = this.createDateString(clickedDate);
+    console.log(this.selectedDate);
     this.allDrives.forEach( drive => {
       if(drive.date == this.selectedDate) {
+        dateFound = true;
         this.driver = drive.driver;
-        this.isAddButtonActive = false;
         drive.passengers.forEach(passenger => {
           this.passengers.push(passenger as User);
         })
-      } else {
-        this.isAddButtonActive = true;
       }
     })
 
-
+    if(dateFound){
+      this.isAddButtonActive = false;
+    } else {
+      this.isAddButtonActive = true;
+    }
   }
 
   markDriveDates(currentDay: string): boolean {
@@ -170,7 +174,7 @@ export class CalendarviewComponent implements OnInit {
     
     let temp = 0;
 
-    for(let i = 0; i <= numberOfWeeks; i++){
+    for(let i = 0; i <= numberOfWeeks - 1; i++){
       for(let j = 0; j < 7; j++){
         if(allDays[temp] == null){
           this.weeks[i].push("");
