@@ -7,6 +7,8 @@ import { User } from '../user.model';
 import { registerLocaleData } from '@angular/common';
 import localeDE from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import { CheckboxControlValueAccessor } from '@angular/forms';
+import { BinaryOperatorExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-calendarview',
@@ -15,8 +17,17 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 })
 export class CalendarviewComponent implements OnInit {
 
+  //context windows
+  addDriverWindow: any;
+  addPassengersWindow: any;
+
+  //Observables
   drives: any;
   allDrives = [];
+  users: any;
+  allUsers = [];
+
+  //field members
   driver: User;
   passengers = [];
 
@@ -42,22 +53,20 @@ export class CalendarviewComponent implements OnInit {
       this.allDrives = drives as Drive[];
     })
 
+    this.users = database.list<User>('users');
+    this.users.valueChanges().subscribe(users => {
+      this.allUsers = users as User[];
+    })
+
     this.isAddButtonActive = true;
 
-   }
-
-  ngOnInit(): void {
-    this.calculateDates();
+    
   }
-
-  addDrive(): void {
-      console.log("Selected Date: " + this.selectedDate);
-      let passengers = [new User(1, "Michael", 0)];
-
-      if(this.selectedDate != ""){
-        this.drives.push(new Drive(1, this.selectedDate, 1.50,new User(1, "Michael", 0), passengers, ));
-      } 
-
+  
+  ngOnInit(): void {
+    console.log("ngOnInit called!");
+    this.calculateDates();
+    this.initPopUpWindows();
   }
 
   showDriveOnClick(clickedDate: string): void {
@@ -66,7 +75,6 @@ export class CalendarviewComponent implements OnInit {
     this.driver = null;
     this.passengers = [];
     this.selectedDate = this.createDateString(clickedDate);
-    console.log(this.selectedDate);
     this.allDrives.forEach( drive => {
       if(drive.date == this.selectedDate) {
         dateFound = true;
@@ -244,5 +252,68 @@ export class CalendarviewComponent implements OnInit {
     }
     this.calculateDates();
   }
+
+  openDialog(dialog: HTMLElement): void {
+    dialog.style.display = "block";
+    
+  }
+
+  closeDialog(dialog: HTMLElement): void {
+    dialog.style.display = "none";   
+
+  }
+
+  initPopUpWindows(): void {
+    this.addDriverWindow = document.getElementById("addDriverWindow");
+    this.addDriverWindow.style.display = "none";
+    this.addPassengersWindow = document.getElementById("addPassengersWindow");
+    this.addPassengersWindow.style.display = "none"
+  }
+
+  checkboxOnClick(index: number, classname: string): void {
+    let checkboxes = document.getElementsByClassName(classname);
+
+    for(let i = 0; i < checkboxes.length; i++){
+      let box = checkboxes[i] as HTMLInputElement;
+      box.checked = false;
+    }
+    let box = checkboxes[index] as HTMLInputElement;
+    box.checked = true;
+    
+  }
+
+  evaluateCheckboxes(classname: string): void {
+    let checkboxes = document.getElementsByClassName(classname);
+
+    for(let i = 0; i < checkboxes.length; i++){
+      let box = checkboxes[i] as HTMLInputElement;
+
+      if(box.checked){
+        
+        if(classname == "driverCheckboxes"){
+          this.driver = this.allUsers[i];
+        }
+
+        if(classname == "passengerCheckboxes"){
+          this.passengers.push(this.allUsers[i]);
+        }
+      }
+    }
+
+  }
+
+  addDrive(): void {
+    this.drives.push(new Drive(1,this.selectedDate,1.5,this.driver, this.passengers));
+  }
+
+  checkIfEqual(user: User): boolean {
+    if(this.driver != null){
+      if(user.name == this.driver.name){
+        return true;
+      }
+    }
+    return false;
+  }
+
 
 }

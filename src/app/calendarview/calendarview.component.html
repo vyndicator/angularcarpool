@@ -31,7 +31,38 @@
         <span class="balance">{{passenger.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</span>
     </div>
 </div>
-<div (click)="addDrive()" *ngIf="isAddButtonActive == true" class="floatingButton">
+<div (click)="openDialog(addDriverWindow)" *ngIf="isAddButtonActive == true" class="floatingButton">
         <img src="assets/img/add-24px.svg">
+</div>
+
+<div id="addDriverWindow">
+    <div id="addDriverWindow_content">
+        <h3>Add new Drive</h3>
+        <p>Please choose the driver.</p>
+        <div class="group">
+            <div *ngFor="let user of allUsers; let i = index">  
+                <input class="driverCheckboxes" (click)="checkboxOnClick(i, 'driverCheckboxes');" type="checkbox">
+                <label >{{user.name}}</label>
+            </div>
+                <br>
+                <span (click)="closeDialog(addDriverWindow)" class="form_button" style="background-color: grey; margin-left: 25%;">Cancel</span>
+                <span (click)="evaluateCheckboxes('driverCheckboxes'); closeDialog(addDriverWindow); openDialog(addPassengersWindow)" class="form_button" style="margin-left: 10%;">Accept</span>
+            </div>
+    </div>
+</div>
+<div id="addPassengersWindow">
+    <div id="addPassengersWindow_content">
+        <h3>Add new Drive</h3>
+        <p>Please choose the passengers.</p>
+        <div class="group">
+            <div *ngFor="let user of allUsers; let i = index">  
+                <input *ngIf="checkIfEqual(user) == false" class="passengerCheckboxes" type="checkbox">
+                <label *ngIf="checkIfEqual(user) == false" >{{user.name}}</label>
+            </div>
+                <br>
+                <span (click)="closeDialog(addPassengersWindow)" class="form_button" style="background-color: grey; margin-left: 25%;">Cancel</span>
+                <span (click)="evaluateCheckboxes('passengerCheckboxes'); closeDialog(addPassengersWindow); addDrive()" class="form_button" style="margin-left: 10%;">Accept</span>
+            </div>
+    </div>
 </div>
 <br>

@@ -94,7 +94,7 @@
     width: 90%;
     margin: auto;
     max-width: 500px;
-    padding-top: 10px;
+    padding-top: 5px;
     font-size: 16px;
     color: #555555;
 }
@@ -103,7 +103,6 @@
     color: #555555;
     text-align: center;
     font-size: 16px;
-    padding-top: 2em;
 }
 
 .balance {
@@ -158,5 +157,79 @@
 .floatingButton:hover {
     background-color: #61d800;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.238);
+    transition: 0.3s;
+}
+
+#addDriverWindow {
+    display: none; 
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.2);
+    
+}
+
+#addDriverWindow_content {
+    font-family: Roboto;
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 15%;
+    width: 300px;
+    height: 270px;
+    border-radius: 3px;
+    padding: 5px 0 0 20px;
+    box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.438);
+
+}
+
+#addPassengersWindow {
+    display: none; 
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.2);
+    
+}
+
+#addPassengersWindow_content {
+    font-family: Roboto;
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 15%;
+    width: 300px;
+    height: 270px;
+    border-radius: 3px;
+    padding: 5px 0 0 20px;
+    box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.438);
+
+}
+
+.form_button {
+    margin-left: 70%;
+    background-color: #41c300;
+    padding: 10px 15px 10px 15px;
+    border-radius: 3px;
+    color: white;
+    font-family: Roboto;
+    font-size: 16px;
+    letter-spacing: 1px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.438);
+    border: none;
+    transition: 0.3s;
+}
+
+.form_button:hover {
+    background-color: #61d800;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.438);
     transition: 0.3s;
 }
