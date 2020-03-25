@@ -28,12 +28,15 @@ export class CalendarviewComponent implements OnInit {
   allUsers = [];
 
   //field members
+  price: number = 1.5;
+
   driver: User;
   passengers = [];
 
   days: string[] = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
   weeks: any[] = [[]];
   nameOfMonth: string;
+  allClassNames: any[] = [];
 
   date: Date;
   currentYear: number = 0;
@@ -60,7 +63,18 @@ export class CalendarviewComponent implements OnInit {
 
     this.isAddButtonActive = true;
 
-    
+  }
+
+  markClickedDate(indexWeek: number, indexDay: number){
+    let daycells = document.getElementsByTagName('td');
+        
+    for(let i = 0; i < daycells.length - 1; i++){
+
+    }
+
+
+    let cell = daycells[indexWeek * 7 + indexDay] as HTMLElement;
+    cell.focus();
   }
   
   ngOnInit(): void {
@@ -192,7 +206,6 @@ export class CalendarviewComponent implements OnInit {
         temp++;
       }
     }
-
   }
 
   getMonthName(): void {
@@ -289,11 +302,9 @@ export class CalendarviewComponent implements OnInit {
       let box = checkboxes[i] as HTMLInputElement;
 
       if(box.checked){
-        
         if(classname == "driverCheckboxes"){
           this.driver = this.allUsers[i];
         }
-
         if(classname == "passengerCheckboxes"){
           this.passengers.push(this.allUsers[i]);
         }
@@ -303,7 +314,8 @@ export class CalendarviewComponent implements OnInit {
   }
 
   addDrive(): void {
-    this.drives.push(new Drive(1,this.selectedDate,1.5,this.driver, this.passengers));
+    this.drives.push(new Drive(1,this.selectedDate, this.price, this.driver, this.passengers));
+    this.isAddButtonActive = false;
   }
 
   checkIfEqual(user: User): boolean {
@@ -313,6 +325,35 @@ export class CalendarviewComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  initInputElements(): void {
+    let checkboxesPassengers = document.getElementsByClassName("passengerCheckboxes");
+    let checkboxesDriver = document.getElementsByClassName("driverCheckboxes");
+    let sliderBar = document.getElementById("sliderbar") as HTMLInputElement;
+
+    for(let i = 0; i < checkboxesPassengers.length; i++){
+      let box = checkboxesPassengers[i] as HTMLInputElement;
+      box.checked = false;
+    }
+
+    for(let i = 0; i < checkboxesDriver.length; i++){
+      let box = checkboxesDriver[i] as HTMLInputElement;
+      box.checked = false;
+    }
+
+    let box = checkboxesDriver[0] as HTMLInputElement;
+    box.checked = true;
+
+    sliderBar.value = "5";
+    this.showPrice();
+
+  }
+
+  showPrice(): void {
+    let sliderBar = document.getElementById("sliderbar") as HTMLInputElement;
+    this.price = (parseInt(sliderBar.value) / 2); 
+
   }
 
 

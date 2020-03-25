@@ -66,27 +66,38 @@
 
 }
 
+.day_cell_empty {
+    border: 1px solid #EFEFEF;
+}
+
 .day_cell_empty:hover {
     background-color: white;
     color: white;
 }
 
+.day_cell {
+    border: 1px solid #EFEFEF;
+}
+
 .day_cell:hover {
     background-color: #41c300;
     color: white;
-    border-radius: 5em;
+}
+
+.day_cell:target {
+    background-color: #41c300;
+    color: white;
 }
 
 .day_cell_with_date {
-    color: #41c300;
-    font-size: 18px; 
-    font-weight: bold;
+    background-color: #444444;
+    color: white;
+    border: 1px solid #EFEFEF;
 }
 
 .day_cell_with_date:hover {
     background-color: #41c300;
     color: white;
-    border-radius: 5em;
 }
 
 
@@ -179,8 +190,8 @@
     background-color: #fefefe;
     margin: auto;
     margin-top: 15%;
-    width: 300px;
-    height: 270px;
+    width: 290px;
+    height: 370px;
     border-radius: 3px;
     padding: 5px 0 0 20px;
     box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.438);
@@ -232,4 +243,41 @@
     background-color: #61d800;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.438);
     transition: 0.3s;
+}
+
+.slider {
+    width: 150px;
+    margin: auto;
+    margin-bottom: 40px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 3px; 
+    background: #d3d3d3; 
+    outline: none; 
+    -webkit-transition: .2s; 
+    transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 10px;
+    width: 20px; 
+    height: 20px; 
+    background: #41c300; 
+    cursor: pointer; 
+}
+
+.slider::-webkit-slider-thumb:hover {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 10px;
+    width: 20px; 
+    height: 20px; 
+    background: #61d800; 
+    cursor: pointer; 
+  }
+
+.price_label {
+    margin-right: 20px;
 }

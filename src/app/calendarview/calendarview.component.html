@@ -8,8 +8,8 @@
         <th class="weekdays" *ngFor="let day of days">
             <span>{{day}}</span>
         </th>
-        <tr class="days" *ngFor="let week of weeks">
-            <td (click)="showDriveOnClick(day)" *ngFor="let day of week" [ngClass] ="{
+        <tr class="days" *ngFor="let week of weeks;let indexWeek = index">
+            <td (click)="showDriveOnClick(day); markClickedDate(indexWeek, indexDay)" *ngFor="let day of week; let indexDay = index" [ngClass] ="{
                 'day_cell_empty' : day == '',
                 'day_cell' : (day != '' && markDriveDates(day) === false),
                 'day_cell_with_date' : (day != '' && markDriveDates(day) === true)
@@ -31,19 +31,23 @@
         <span class="balance">{{passenger.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</span>
     </div>
 </div>
-<div (click)="openDialog(addDriverWindow)" *ngIf="isAddButtonActive == true" class="floatingButton">
+<div (click)="openDialog(addDriverWindow); initInputElements()" *ngIf="isAddButtonActive == true" class="floatingButton">
         <img src="assets/img/add-24px.svg">
 </div>
 
 <div id="addDriverWindow">
     <div id="addDriverWindow_content">
         <h3>Add new Drive</h3>
-        <p>Please choose the driver.</p>
+        <p>Please choose the driver:</p>
         <div class="group">
             <div *ngFor="let user of allUsers; let i = index">  
                 <input class="driverCheckboxes" (click)="checkboxOnClick(i, 'driverCheckboxes');" type="checkbox">
                 <label >{{user.name}}</label>
             </div>
+                 <br>
+                    <p>Please choose the drive price.</p>
+                    <span class="price_label">Price: {{price | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</span>
+                    <input (mousemove)="showPrice()" type="range" min="1" max="10" value="5" class="slider" id="sliderbar">
                 <br>
                 <span (click)="closeDialog(addDriverWindow)" class="form_button" style="background-color: grey; margin-left: 25%;">Cancel</span>
                 <span (click)="evaluateCheckboxes('driverCheckboxes'); closeDialog(addDriverWindow); openDialog(addPassengersWindow)" class="form_button" style="margin-left: 10%;">Accept</span>
@@ -53,7 +57,7 @@
 <div id="addPassengersWindow">
     <div id="addPassengersWindow_content">
         <h3>Add new Drive</h3>
-        <p>Please choose the passengers.</p>
+        <p>Please choose the passengers:</p>
         <div class="group">
             <div *ngFor="let user of allUsers; let i = index">  
                 <input *ngIf="checkIfEqual(user) == false" class="passengerCheckboxes" type="checkbox">
