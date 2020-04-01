@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireDatabaseModule } from '@angular/fire/database';
 import 'firebase/database';
 import { Drive } from '../drive.model';
 import { User } from '../user.model';
+import { Datehelper } from './Datehelper';
 
 @Component({
   selector: 'app-datepicker',
@@ -11,184 +12,65 @@ import { User } from '../user.model';
 })
 export class DatepickerComponent implements OnInit {
 
+  //Helper classes
+  datehelper = new Datehelper();
+
   //Observables
   drives: any;
   allDrives = [];
   users: any;
   allUsers = [];
 
+  //Datepicker data  
   days: string[] = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+  allMonths: string[] = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   weeks: any[] = [[]];
-  nameOfMonth: string;
 
-  date: Date;
+  nameOfSelectedMonth: string;
   currentYear: number = 0;
   currentMonth: number = 0;
+  todaysDate: Date;
 
-  driver: User;
-  passengers = [];
-
-  selectedDate: String;
+  selectedDate: string;
 
   constructor(database: AngularFireDatabase) {
-    this.date = new Date(); 
-    this.currentYear = this.date.getFullYear();
-    this.currentMonth = this.date.getMonth();
+    this.todaysDate = new Date(); 
+    this.currentYear = this.todaysDate.getFullYear();
+    this.currentMonth = this.todaysDate.getMonth();
 
-      this.drives = database.list<Drive>('drives');
-    this.drives.valueChanges().subscribe(drives => {
-      this.allDrives = drives as Drive[];
-    })
+    this.selectedDate = this.todaysDate.getDate().toString();
 
-    this.users = database.list<User>('users');
-    this.users.valueChanges().subscribe(users => {
-      this.allUsers = users as User[];
-    })
-
+    this.getData(database);
   }
 
-  markClickedDate(indexWeek: number, indexDay: number){
-    let daycells = document.getElementsByTagName('td');
-        
-    for(let i = 0; i < daycells.length - 1; i++){
-
-    }
-
-
-    let cell = daycells[indexWeek * 7 + indexDay] as HTMLElement;
-    cell.focus();
-  }
-  
-
-  createDateString(clickedDate: string): string {
+  isDriveAvailable(clickedDate: any): boolean {
     
-    let month;
-    let day;
-    let selectedDay = parseInt(clickedDate);
+    let dateFound = false;
 
-    if(this.currentMonth < 10) {
-      month = "0" + (this.currentMonth + 1);
-    } else {
-      month = "" + (this.currentMonth + 1);
-    }
-
-    if(selectedDay < 10) {
-      day = "0" + clickedDate;
-    } else {
-      day = "" + clickedDate;
-    }
-
-    return day + "/" + month + "/" + this.currentYear;
-  }
-
-  calculateDates(): void {
-   
-    let firstDay = new Date(this.currentYear, this.currentMonth, 1);
-    let lastDay = new Date(this.currentYear, this.currentMonth + 1, 0);
-
-    let allDays: any[] = [];
-    let indexOfStartDay;
-    let numberOfWeeks = 1;
-
-    this.weeks = [[]];
-    this.getMonthName();
-
-    indexOfStartDay = firstDay.getDay();
-    if(indexOfStartDay == 0) {
-      indexOfStartDay = 7;
-    }
-    indexOfStartDay--;
-
-    for(let i = 0; i < indexOfStartDay; i++){
-      allDays.push(null);
-    }
-
-    for(let i = 1; i <= lastDay.getDate(); i++){
-      allDays.push(new Date(this.currentYear, this.currentMonth, i));
-    }
-
-    let indexOfLastDay = lastDay.getDay();
-    if(indexOfLastDay == 0){
-      indexOfLastDay = 7;
-    }
-    indexOfLastDay--;
-
-    let daysOfLastWeekLeft = 6 - indexOfLastDay;
-
-    for(let i = 0; i < daysOfLastWeekLeft; i++){
-      allDays.push(null);
-    }
-    
-    let day_old = new Date(this.currentYear, this.currentMonth, 1);
-
-    allDays.forEach(day => {
-      if(day != null){
-        if(day.getDay() == 1 && day_old.getDay() == 0){
-          numberOfWeeks++;
+    this.allDrives.forEach( drive => {
+        let currentDrive = drive as Drive;
+        if(currentDrive.date == this.getSelectedDateAsString(clickedDate, this.currentMonth, this.currentYear)){
+          dateFound = true;
         }
+    });
 
-        day_old = day;
-      }
-    })
-    
-    for(let i = 0; i < 5; i++){
-      this.weeks.push( [] );
-    }
-    
-    let temp = 0;
-
-    for(let i = 0; i <= numberOfWeeks - 1; i++){
-      for(let j = 0; j < 7; j++){
-        if(allDays[temp] == null){
-          this.weeks[i].push("");
-        } else {
-          this.weeks[i].push(allDays[temp].getDate().toString());
-        }
-        temp++;
-      }
-    }
+    return dateFound;
   }
 
-  getMonthName(): void {
-    switch(this.currentMonth){
-      case 0: 
-        this.nameOfMonth = "January";
-        break;
-      case 1: 
-        this.nameOfMonth = "February";
-        break;
-      case 2: 
-        this.nameOfMonth = "March";
-        break;
-      case 3: 
-        this.nameOfMonth = "April";
-        break;
-      case 4: 
-        this.nameOfMonth = "May";
-        break;
-      case 5: 
-        this.nameOfMonth = "June";
-        break;
-      case 6: 
-        this.nameOfMonth = "July";
-        break;
-      case 7: 
-        this.nameOfMonth = "August";
-        break;
-      case 8: 
-        this.nameOfMonth = "September";
-        break;
-      case 9: 
-        this.nameOfMonth = "October";
-        break;
-      case 10: 
-        this.nameOfMonth = "November";
-        break;
-      case 11: 
-        this.nameOfMonth = "December";
-        break;
+  isDateClicked(clickedDay: any): boolean {
+    //TODO check for the selected not only based on the day -> implement Month and Year
+
+    if(this.selectedDate == clickedDay){
+      return true;
     }
+
+    return false;
   }
+
+  /**
+   * Changes the selected month in the date picker
+   * @param direction determines if to skip to next or last month
+   */
 
   changeMonth(direction: number): void {
     if(direction == 2){
@@ -204,24 +86,60 @@ export class DatepickerComponent implements OnInit {
         this.currentYear--;
       }
     }
-    this.calculateDates();
+    this.weeks = this.datehelper.calculateCurrentMonth(this.currentMonth, this.currentYear);
+    this.getMonthName();
+    this.selectedDate = null;
   }
 
-  markDriveDates(currentDay: string): boolean {
+  getSelectedDateAsString(clickedDate: string, currentMonth: number, currentYear: number): string {
+    
+    let month;
+    let day;
+    let selectedDay = parseInt(clickedDate);
 
-    let date = this.createDateString(currentDay);
-    let isFound = false;
+    if(currentMonth < 10) {
+      month = "0" + (currentMonth + 1);
+    } else {
+      month = "" + (currentMonth + 1);
+    }
 
-    this.allDrives.forEach( drive => {
-      if(drive.date === date){
-        isFound = true;
-      }
+    if(selectedDay < 10) {
+      day = "0" + clickedDate;
+    } else {
+      day = "" + clickedDate;
+    }
+
+    return day + "/" + month + "/" + currentYear;
+  }
+
+  private getData(database: AngularFireDatabase): void {
+    this.drives = database.list<Drive>('drives');
+    this.drives.valueChanges().subscribe(drives => {
+      this.allDrives = drives as Drive[];
     })
-    return isFound;
+
+    this.users = database.list<User>('users');
+    this.users.valueChanges().subscribe(users => {
+      this.allUsers = users as User[];
+    })
+  }
+
+  getMonthName(): void {
+    this.nameOfSelectedMonth = this.allMonths[this.currentMonth];
+  }
+
+  selectDate(day: any){
+    this.selectedDate = day;
+  }
+
+  private getSelectedDate(): string{
+
+    return this.getSelectedDateAsString(this.selectedDate, this.currentMonth, this.currentYear);
   }
 
   ngOnInit(): void {
-    this.calculateDates();
+    this.weeks = this.datehelper.calculateCurrentMonth(this.currentMonth, this.currentYear);
+    this.getMonthName();
   }
 
 }

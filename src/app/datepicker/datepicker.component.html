@@ -2,7 +2,7 @@
     <mat-card-content>
         <div class="calendar_header">
             <span (click)="changeMonth(1)" id="monthButton">&#10094;</span>
-            <span>{{nameOfMonth}} {{currentYear}}</span>
+            <span>{{nameOfSelectedMonth}} {{currentYear}}</span>
             <span (click)="changeMonth(2)" id="monthButton">&#10095;</span>
         </div>
         <table class="table_content">
@@ -10,11 +10,14 @@
                 <span>{{day}}</span>
             </th>
             <tr class="days" *ngFor="let week of weeks;let indexWeek = index">
-                <td *ngFor="let day of week; let indexDay = index" [ngClass] ="{
+                <td *ngFor="let day of week; let indexDay = index" (click)="selectDate(day)" [ngClass] ="{
                     'day_cell_empty' : day == '',
-                    'day_cell' : (day != '' && markDriveDates(day) === false),
-                    'day_cell_with_date' : (day != '' && markDriveDates(day) === true)
-                }">{{day}}</td>
+                    'day_cell' : day != '',
+                    'day_cell_clicked' : isDateClicked(day) == true
+                    
+                }">{{day}}
+                <div class="marker" *ngIf="isDriveAvailable(day)"></div>
+                </td>
             </tr>
             <br>
         </table>

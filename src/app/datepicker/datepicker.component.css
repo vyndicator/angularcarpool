@@ -1,3 +1,8 @@
+.calendar_card {
+    max-width: 360px;
+    margin: auto;
+}
+
 .header {
     text-align: center;
     margin-bottom: 2em;
@@ -38,8 +43,8 @@
 
 .table_content {
     border-collapse: collapse;
-    width: 90%;
     margin: auto;
+    height: auto;
 }
 
 .table_content th {
@@ -47,41 +52,46 @@
     padding-top: 1em;
     padding-bottom: 0.5em;
     font-size: 14px;
-    width: 30px;
+    width: 40px;
 }
 
 .days {
     text-align: center;
     font-size: 12px;
-    height: 45px;
+    height: 40px;
 
-}
-
-.day_cell_empty {
-    border: 1px solid #EFEFEF;
 }
 
 .day_cell_empty:hover {
     background-color: white;
     color: white;
-}
-
-.day_cell {
-    border: 1px solid #EFEFEF;
+    border-radius: 5em;
 }
 
 .day_cell:hover {
     background-color: #ff4081;
     color: white;
-}
-
-.day_cell_with_date {
-    background-color: #ABABAB;
-    color: white;
-    border: 1px solid #EFEFEF;
+    border-radius: 5em;
 }
 
 .day_cell_with_date:hover {
     background-color: #ff4081;
     color: white;
+    border-radius: 5em;
+}
+
+.day_cell_clicked {
+    background-color: #ff4081;
+    color: white;
+    border-radius: 5em;
+}
+
+.marker {
+    background-color: #ff4081;
+    height: 4px;
+    width: 4px;
+    margin: auto;
+    margin-bottom: -4px;
+    border-radius: 3px;
+    
 }
