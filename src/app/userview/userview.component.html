@@ -1,65 +1,46 @@
-<div> 
-    <div class="card_container">
-        <div class="card" *ngFor="let user of allUsers; let i = index" [ngClass] = "{
-            'card' : cardState[i] == false,
-            'card_open' : cardState[i] == true
-        }"> 
-        <div class="container">
-                <img id="placeholder" src="assets/img/placeholder.jpg" alt="userPortrait">
-                <div class="property_container">
-                    <div id="id">ID: {{user.id}}</div>
-                    <div id="name">{{user.name}}</div>    
-                    <div [ngClass] ="{
-                        'positive' : user.balance > 0,
-                        'negative': user.balance < 0,
-                        'neutral' : user.balance == 0
-                    }">{{user.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</div>
-                </div>
-                <div class="icon_Container">
-                        <img (click)="deleteUser(user.id)" id="delete" src="assets/img/delete-24px.svg" alt="delete">
-                        <img (click)="openEditMenu(i)" id="edit" src="assets/img/create-24px.svg" alt="edit">
-                </div>  
-        </div>
-        
-        <div class="edit_container" [ngClass]="{
-            'edit_container_open' : cardState[i] == true,
-            'edit_container_closed' : cardState[i] == false
-        }">     
-            <div class="group">      
-                    <input class="name_edit" type="text" required>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Name</label>
-            </div>
-            <div class="group">      
-                <input class="balance_edit" type="text" required>
-                <span class="highlight"></span>
-                <span class="bar"></span>
-                <label>Balance</label>
-            </div>
-            <button (click)="editUser(user.id, i)" class="form_button">CHANGE</button> 
-        </div>
+<div class="scroll_container">
+    <mat-card class="userCard" *ngFor="let user of allUsers; let i = index">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{user.name}}</mat-card-title>
+            <mat-card-subtitle>
+                <div [ngClass] ="{
+                    'positive' : user.balance > 0,
+                    'negative': user.balance < 0,
+                    'neutral' : user.balance == 0
+                }">{{user.balance | currency : '€' : 'symbol': '1.2-2' : 'de-DE'}}</div>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <mat-expansion-panel-header style="position: absolute; right: 0px; top: 10px;">
+                </mat-expansion-panel-header>
+                <mat-divider></mat-divider>
+                <br>
+                <p>This panel ist under construction.
+                   Please feel free to send me feedback. 
+                </p>
+                <p>Thank you.</p>
+                <br>
+                <button mat-stroked-button color="primary" (click)="openEditDialog()">Edit User</button>
+                <button mat-button color="warn" (click)="deleteUser(user.id)">Delete User</button>
+
+            </mat-expansion-panel>
+        </mat-card-content>
+
+    </mat-card>
+</div>
+<div class="dummy" style="height: 100px;">
+
+</div>
     
-    </div>
+<button class="floatingButton" (click)="addUser('Ferando Ortega')" mat-fab color="accent">
+    <mat-icon class="floatingIcon" svgIcon="addUser"></mat-icon>
+</button>
 
-    <div *ngIf="editWindowOpen == false"(click)="openDialog()" class="floatingButton">
-            <img src="assets/img/person_add-24px.svg">
-    </div>
+    
 
-    <div id="popup">
-        <div id="popup_content">
-            <h3>Add new User</h3>
-            <p>Please enter the name of the user.</p>
-            <div class="group">      
-                    <input id="nameInput" type="text" style="width: 80%; margin-top: 40px;  margin-bottom: 40px">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label id="username_label">Name of the user</label>
-                    <span (click)="closeDialog()" class="form_button" style="background-color: grey; margin-left: 25%;">Cancel</span>
-                    <span (click)="addUser()" class="form_button" style="margin-left: 10%;">Accept</span>
-                </div>
-        </div>
-    </div>
-</div>   
+    
+
 
 

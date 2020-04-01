@@ -1,14 +1,14 @@
 import { Component, OnInit, ɵCompiler_compileModuleAsync__POST_R3__ } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import 'firebase/database';
-import { Observable } from 'rxjs';
 import { User } from '../user.model';
 import { registerLocaleData } from '@angular/common';
 import localeDE from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { MatDialogModule } from '@angular/material/dialog';
-import { TouchSequence } from 'selenium-webdriver';
-import { NONE_TYPE } from '@angular/compiler';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { UsereditdialogComponent } from '../usereditdialog/usereditdialog.component';
 
 
 @Component({
@@ -19,27 +19,28 @@ import { NONE_TYPE } from '@angular/compiler';
 
 export class UserviewComponent implements OnInit {
 
-  editWindowOpen: boolean = false;
   globalUserIndex : number = 0;
 
   userToAdd: User;
-  numberOfCards = 0;
   users: any;
   allUsers = [];
-  cardState: boolean[] = [];
   database: AngularFireDatabase;
 
-  modal: any;
 
-  constructor(database: AngularFireDatabase){
+  constructor(database: AngularFireDatabase, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public dialog: MatDialog){
     registerLocaleData(localeDE, 'de-DE', localeDeExtra);
     this.users = database.list<User>('users');
     this.users.valueChanges().subscribe(users => {
       this.allUsers = users as User[];
-      this.allUsers.forEach( user => this.cardState.push(false));
     })
     this.database = database;
     
+    iconRegistry.addSvgIcon(
+      'addUser',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/img/person_add-24px.svg')
+    );
+
+     
     
   }
 
@@ -49,26 +50,6 @@ export class UserviewComponent implements OnInit {
       users.remove(b.key);
       subscription.unsubscribe();
     }));
-
-
-  }
-
-  openEditMenu(index: number): void {
-    let open;
-    this.closeAllCards(index);
-    this.cardState[index] = !this.cardState[index];
-    open = false;
-    this.cardState.forEach(card => {
-      if(card == true){
-        open = true;
-      }
-    })
-
-    if(open == true) {
-      this.editWindowOpen = true;
-    } else {
-      this.editWindowOpen = false;
-    }
 
   }
 
@@ -93,20 +74,8 @@ export class UserviewComponent implements OnInit {
       }));
   }
 
-  addUser():void {
-    let nameInput = document.getElementById("nameInput") as HTMLInputElement;
-    let name = nameInput.value;
-
-    if(name != ""){
-      this.users.push(new User(this.globalUserIndex, name, 0.00));
-      this.globalUserIndex++;
-      this.closeDialog();
-    } else {
-      let nameInput = document.getElementById("nameInput") as HTMLInputElement;
-      nameInput.placeholder = "Please enter a valid name!";
-      
-    }
-    
+  addUser(name: string):void {
+    this.users.push(new User(this.globalUserIndex, name, 0.00));
   }
 
   getUserIndex(): void {
@@ -120,35 +89,22 @@ export class UserviewComponent implements OnInit {
     
   }
 
-  openDialog(): void {
-    this.modal.style.display = "block";
-    let nameInput = document.getElementById("nameInput") as HTMLInputElement;
-    nameInput.value = '';
-    nameInput.placeholder = "";
-    nameInput.focus();
-    
+  openEditDialog(): void {
+    const dialogRef = this.dialog.open(UsereditdialogComponent, {
+      width: '250px',
+      
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      
+    });
   }
-
-  closeDialog(): void {
-    this.modal.style.display = "none";   
-
-  }
-
-  closeAllCards(index: number): void {
-    for(let i = 0; i < this.cardState.length; i++) {
-      if(i != index)
-      this.cardState[i] = false;
-    }
-  }   
 
   ngOnInit(): void {
     this.getUserIndex();
-    this.initModalBox();
   }
   
-  initModalBox(): void {
-    this.modal = document.getElementById("popup");
-    this.modal.style.display = "none";
-  }
+
 
 }

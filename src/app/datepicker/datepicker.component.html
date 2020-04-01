@@ -1,0 +1,22 @@
+<mat-card class="calendar_card">
+    <mat-card-content>
+        <div class="calendar_header">
+            <span (click)="changeMonth(1)" id="monthButton">&#10094;</span>
+            <span>{{nameOfMonth}} {{currentYear}}</span>
+            <span (click)="changeMonth(2)" id="monthButton">&#10095;</span>
+        </div>
+        <table class="table_content">
+            <th class="weekdays" *ngFor="let day of days">
+                <span>{{day}}</span>
+            </th>
+            <tr class="days" *ngFor="let week of weeks;let indexWeek = index">
+                <td *ngFor="let day of week; let indexDay = index" [ngClass] ="{
+                    'day_cell_empty' : day == '',
+                    'day_cell' : (day != '' && markDriveDates(day) === false),
+                    'day_cell_with_date' : (day != '' && markDriveDates(day) === true)
+                }">{{day}}</td>
+            </tr>
+            <br>
+        </table>
+    </mat-card-content>
+</mat-card>
