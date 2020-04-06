@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵCompiler_compileModuleAsync__POST_R3__ } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import 'firebase/database';
 import { User } from '../user.model';
@@ -8,7 +8,7 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { UsereditdialogComponent } from '../usereditdialog/usereditdialog.component';
+import { UsereditdialogComponent } from '../dialogs/usereditdialog/usereditdialog.component';
 
 
 @Component({
@@ -26,7 +26,6 @@ export class UserviewComponent implements OnInit {
   allUsers = [];
   database: AngularFireDatabase;
 
-
   constructor(database: AngularFireDatabase, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public dialog: MatDialog){
     registerLocaleData(localeDE, 'de-DE', localeDeExtra);
     this.users = database.list<User>('users');
@@ -39,8 +38,6 @@ export class UserviewComponent implements OnInit {
       'addUser',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/person_add-24px.svg')
     );
-
-     
     
   }
 
@@ -58,9 +55,7 @@ export class UserviewComponent implements OnInit {
     let newName = nameEdit.value;
     let balanceEdit = document.getElementsByClassName("balance_edit")[index] as HTMLInputElement;
     let newBalance = balanceEdit.value;
-    console.log(id);
-    console.log(id)
-    
+
       let users = this.database.list('users', ref => ref.orderByChild('id').equalTo(id));
       let subscription = users.snapshotChanges().subscribe(a => a.forEach( b => {
         if(newName != ""){
@@ -91,8 +86,7 @@ export class UserviewComponent implements OnInit {
 
   openEditDialog(): void {
     const dialogRef = this.dialog.open(UsereditdialogComponent, {
-      width: '250px',
-      
+      width: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

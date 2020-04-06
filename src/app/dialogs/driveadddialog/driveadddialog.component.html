@@ -1,0 +1,35 @@
+<div style="position: relative; height: 450px;">
+  <h2>Create a new drive</h2>
+  <mat-divider></mat-divider>
+  <div style="overflow: auto; height: 70%;">
+    <mat-vertical-stepper>
+        <mat-step>
+            <ng-template matStepLabel>Drive Preferences</ng-template>
+            <mat-form-field style="margin-top: 10px;">
+                <mat-label>Driver</mat-label>
+                <mat-select [(ngModel)]="driver">
+                  <mat-option (click)="rearrangePassengers()" *ngFor="let user of users.all" [value]="user">
+                    {{user.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <br>
+              <p style="color: #999999; font-size: 11px; margin: 0">Drive Price</p>
+              <mat-slider style="padding: 0px; margin-left: -5px;"></mat-slider>
+              
+          
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Choose Passengers</ng-template>
+              <div class="check_group">  
+                  <mat-checkbox *ngFor="let passenger of passengers" [value]="passenger" 
+                  style="margin: 5px;" (change)="onChange($event)">{{passenger.name}}</mat-checkbox>
+              </div>
+        </mat-step>
+    </mat-vertical-stepper>
+  </div>
+  <div class="button_container">
+    <button mat-button color="warn" (click)="onNoClick()" style="margin-right: 10px;">Cancel</button>
+    <button mat-stroked-button color="primary" [mat-dialog-close]="result">Submit</button>
+  </div>
+</div>

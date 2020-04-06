@@ -1,0 +1,11 @@
+.check_group {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.button_container {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}

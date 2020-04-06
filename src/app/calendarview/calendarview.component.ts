@@ -9,6 +9,9 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DriveadddialogComponent } from '../dialogs/driveadddialog/driveadddialog.component';
+import { DriverProvider } from 'protractor/built/driverProviders';
 
 
 
@@ -21,7 +24,6 @@ export class CalendarviewComponent implements OnInit {
 
   @ViewChild(DatepickerComponent) datepicker;
   datePickerReference: DatepickerComponent;
-
   database: AngularFireDatabase;
 
   //Observables
@@ -30,7 +32,13 @@ export class CalendarviewComponent implements OnInit {
   users: any;
   allUsers = [];
 
-  constructor(database: AngularFireDatabase, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  allDriveUsers = [];
+
+  //data
+  globalDriveIndex: number = 0;
+  hasLoaded = false;
+
+  constructor(database: AngularFireDatabase, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public driveAddDialog: MatDialog) {
     registerLocaleData(localeDE, 'de-DE', localeDeExtra);
     this.database = database;
     this.getData();
@@ -40,11 +48,38 @@ export class CalendarviewComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/add-24px.svg')
     );
 
-    
+    this.getDriveIndex();
   }
   
   addDrive(date: string, price: number, driver: User, passengers: User[] ): void {
-    this.drives.push(new Drive(1, date, price, driver, passengers));
+    this.drives.push(new Drive(this.globalDriveIndex, date, price, driver, passengers));   
+
+    let newBalance = driver.balance + (passengers.length * price);
+    this.updateBalance(driver, newBalance);
+   
+    passengers.forEach( passenger => {
+      let newBalance = passenger.balance - price;
+      this.updateBalance(passenger, newBalance);
+    })
+  }
+
+  updateBalance(user: User, newBalance: number) {
+    let users = this.database.list('users', ref => ref.orderByChild('id').equalTo(user.id));
+    let subscription = users.snapshotChanges().subscribe(a => a.forEach( b => {
+      users.update(b.key,{balance: newBalance});
+      subscription.unsubscribe();
+    }));
+  }
+
+  getDriveIndex(): void {
+    let allDrives = [];
+    let users = this.database.list('drives', ref => ref.orderByChild('id'));
+    users.valueChanges().subscribe(a => {
+      allDrives = a as Drive[];
+      this.globalDriveIndex = allDrives[allDrives.length -1].id;
+      this.globalDriveIndex++;
+    });
+    
   }
   
   private getData(): void{
@@ -56,8 +91,38 @@ export class CalendarviewComponent implements OnInit {
     this.users = this.database.list<User>('users');
     this.users.valueChanges().subscribe(users => {
       this.allUsers = users as User[];
+      this.hasLoaded = true;
+      if(this.allUsers.length > 0){
+      }
     })
   }
+
+  openAddDriveDialog(): void {
+    const dialogRef = this.driveAddDialog.open(DriveadddialogComponent, {
+      width: '500px',
+      height: '500px',
+      data: {
+        all: this.allUsers
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result != null){
+        this.allDriveUsers = result;
+
+        let date = this.datePickerReference.getSelectedDate();
+        let driver = this.allDriveUsers[0] as User;
+        let passengers = [];
+        for(let i = 1; i < this.allDriveUsers.length; i++) {
+          passengers.push(this.allDriveUsers[i]);
+        }
+
+        this.addDrive(date, 1.50, driver,passengers);
+      }
+    });
+  }
+
+
 
   ngOnInit(): void {
     

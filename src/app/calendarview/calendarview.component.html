@@ -1,6 +1,9 @@
 <app-datepicker></app-datepicker>
 
-<button mat-fab color="accent" class="floatingButton">
+<button mat-fab color="accent" [disabled]="datePickerReference.hasSelectedDateADrive()" 
+*ngIf="hasLoaded == true" class="floatingButton" (click)="openAddDriveDialog()">
+
     <mat-icon svgIcon="addDrive"></mat-icon>
+    
 </button>
 

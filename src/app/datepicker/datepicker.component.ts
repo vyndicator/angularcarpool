@@ -31,7 +31,7 @@ export class DatepickerComponent implements OnInit {
   currentMonth: number = 0;
   todaysDate: Date;
 
-  selectedDate: string;
+  public selectedDate: string;
 
   constructor(database: AngularFireDatabase) {
     this.todaysDate = new Date(); 
@@ -55,6 +55,10 @@ export class DatepickerComponent implements OnInit {
     });
 
     return dateFound;
+  }
+
+  public hasSelectedDateADrive(): boolean {
+    return this.isDriveAvailable(this.selectedDate);
   }
 
   isDateClicked(clickedDay: any): boolean {
@@ -132,7 +136,7 @@ export class DatepickerComponent implements OnInit {
     this.selectedDate = day;
   }
 
-  private getSelectedDate(): string{
+  public getSelectedDate(): string{
 
     return this.getSelectedDateAsString(this.selectedDate, this.currentMonth, this.currentYear);
   }
