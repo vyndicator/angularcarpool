@@ -1,0 +1,18 @@
+<div style="position: relative;">
+    <h2>Create a new user</h2>
+    <mat-divider></mat-divider>
+    <br>
+    <p>Please enter the name of the new user.</p>
+    <mat-form-field class="example-form-field">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" [(ngModel)]="result">
+        <button mat-button *ngIf="result" matSuffix mat-icon-button aria-label="Clear" (click)="result=''">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    <div class="button_container">
+        <button mat-button color="warn" (click)="onNoClick()" style="margin-right: 10px;">Cancel</button>
+        <button mat-stroked-button color="primary" [mat-dialog-close]="result">Submit</button>
+    </div>
+</div>
+  

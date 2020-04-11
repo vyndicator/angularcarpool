@@ -17,6 +17,7 @@ import { CalendarviewComponent } from './calendarview/calendarview.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { DriveadddialogComponent } from './dialogs/driveadddialog/driveadddialog.component';
 import { UsereditdialogComponent } from './dialogs/usereditdialog/usereditdialog.component';
+import { UseradddialogComponent } from './dialogs/useradddialog/useradddialog.component';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,6 +32,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -42,6 +44,7 @@ import { MatSelectModule } from '@angular/material/select';
     UsereditdialogComponent,
     DatepickerComponent,
     DriveadddialogComponent,
+    UseradddialogComponent,
 
   ],
   imports: [
@@ -65,7 +68,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatCheckboxModule,
     MatRadioModule,
     MatStepperModule,
-    MatSelectModule
+    MatSelectModule,
+    MatInputModule
 
   ],
   providers: [],

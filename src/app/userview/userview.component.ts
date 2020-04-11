@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { UsereditdialogComponent } from '../dialogs/usereditdialog/usereditdialog.component';
+import { UseradddialogComponent } from '../dialogs/useradddialog/useradddialog.component';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class UserviewComponent implements OnInit {
   allUsers = [];
   database: AngularFireDatabase;
 
-  constructor(database: AngularFireDatabase, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public dialog: MatDialog){
+  constructor(database: AngularFireDatabase, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, 
+    public editDialog: MatDialog, public addDialog: MatDialog ){
     registerLocaleData(localeDE, 'de-DE', localeDeExtra);
     this.users = database.list<User>('users');
     this.users.valueChanges().subscribe(users => {
@@ -85,12 +87,22 @@ export class UserviewComponent implements OnInit {
   }
 
   openEditDialog(): void {
-    const dialogRef = this.dialog.open(UsereditdialogComponent, {
+    const dialogRef = this.editDialog.open(UsereditdialogComponent, {
       width: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      
+    });
+  }
+
+  openAddDialog(): void {
+    const dialogRef = this.addDialog.open(UseradddialogComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.addUser(result);
       
     });
   }
